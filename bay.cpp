@@ -3,6 +3,7 @@
 #include<string.h>
 #include<vector>
 #include<iostream>
+#include<bits/stdc++.h>
 using namespace std ;
 
 vector<string>avalue ;
@@ -132,10 +133,55 @@ void trainModel(){
 
     fclose(fptr);
 }
+
+double extractPrior(char* cl){
+    FILE *fptr;
+    double prior = 0.0;
+
+    if ((fptr = fopen("prior.txt", "r")) == NULL) {
+        printf("Error! opening prior.txt");
+        exit(1);
+    }
+    char line[100];
+    while(fgets(line,sizeof(line),fptr)){
+        //checking cl(class) exist in line extracted from prior.txt
+        if( strstr(line,cl)!=NULL ){
+            int index;
+            char *ch;
+            ch = strchr(line,'=');
+            index = (int)(ch - line);
+
+            string sub = "";
+
+            for(int i = index+2; i< sizeof(line); i++){
+                sub+= line[i];
+            }
+
+            //printf("in %d %s",index,line);
+
+            prior = atof(sub.c_str());
+        }
+    }
+    //printf("prior is %.2f",prior);
+    return prior;
+}
+void testModel(string attribute){
+    double pro_cat = 2.0;
+    double pro_dog = 0.0;
+
+    double pri_cat = extractPrior("cat");
+
+    if(pro_cat>pro_dog){
+        printf("Sample is cat");
+    }else if(pro_cat<pro_dog){
+        printf("Sample is dog");
+    }
+}
 int main() {
-
-    trainModel();
-
+    //trainModel();
+    string attribute = "small";
+    testModel(attribute);
+    extractPrior("cat");
     return 0;
 }
 
