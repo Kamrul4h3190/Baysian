@@ -157,24 +157,59 @@ double extractPrior(char* cl){
                 sub+= line[i];
             }
 
-            //printf("in %d %s",index,line);
-
             prior = atof(sub.c_str());
+            fclose(fptr);
         }
     }
-    //printf("prior is %.2f",prior);
+    //printf("prior is %f\n",prior);
     return prior;
 }
+
+double extractLikelyhood(char* description){
+    FILE *fptr;
+    double lkhood = 0.0;
+
+    if ((fptr = fopen("likelyhood.txt", "r")) == NULL) {
+        printf("Error! opening prior.txt");
+        exit(1);
+    }
+    char line[100];
+    while(fgets(line,sizeof(line),fptr)){
+        //checking cl(class) exist in line extracted from prior.txt
+        if( strstr(line,description)!=NULL ){
+            int index;
+            char *ch;
+            ch = strchr(line,'=');
+            index = (int)(ch - line);
+
+            string sub = "";
+
+            for(int i = index+2; i< sizeof(line); i++){
+                sub+= line[i];
+            }
+
+            lkhood = atof(sub.c_str());
+            fclose(fptr);
+        }
+    }
+    printf("likelyhood is %f\n",lkhood);
+    return lkhood;
+}
+
 void testModel(string attribute){
     double pro_cat = 2.0;
     double pro_dog = 0.0;
 
     double pri_cat = extractPrior("cat");
+    double pri_dog = extractPrior("dog");
+
+    double lik_cat = extractLikelyhood("small|cat");
+    double lik_dog = extractLikelyhood("small|dog");
 
     if(pro_cat>pro_dog){
-        printf("Sample is cat");
+        printf("Sample is cat\n");
     }else if(pro_cat<pro_dog){
-        printf("Sample is dog");
+        printf("Sample is dog\n");
     }
 }
 int main() {
