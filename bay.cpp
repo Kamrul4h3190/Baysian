@@ -9,6 +9,8 @@ vector<string>avalue ;
 vector<string>cvalue ;
 
 int numberofobject = 0 ;
+int totaldog = 0;
+int totalcat = 0;
 
 int findOccurance(string att, string cl)
 {
@@ -32,6 +34,7 @@ int findOccurance(string att, string cl)
          if(s == att && s2 == cl) count++ ;
     }
     fclose(fptr);
+
     return count ;
 }
 int main() {
@@ -70,16 +73,40 @@ int main() {
          for(int i = 0 ; i < cvalue.size() ; i++){
             if(s == cvalue[i]) {
                 flag = true ;
-
+                //editing here
+                if(s.compare("dog")){
+                    totaldog++;
+                }else if(s.compare("cat")){
+                    totalcat++;
+                }
             }
          }
-         if(!flag)
+
+         if(!flag){
             cvalue.push_back(s) ;
+            if(s.compare("dog")){
+                    totaldog++;
+                }else if(s.compare("cat")){
+                    totalcat++;
+                }
+         }
+         /*if(!flag){
+            cvalue.push_back(s) ;
+            if(s.compare("dog")){
+                totaldog++;
+            }
+            else if(s.compare("cat")){
+                totalcat++;
+            }
+         }*/
+
 
 
 
     }
-    printf("%d\n", numberofobject) ;
+    printf("totaldog = %d\n", totaldog) ;
+    printf("totalcat = %d\n", totalcat) ;
+    printf("total sample = %d\n", numberofobject) ;
     for(int i = 0 ; i < avalue.size() ; i++){
 
         cout<< avalue[i] << endl ;
@@ -94,6 +121,9 @@ int main() {
         for(int j = 0 ; j < avalue.size() ; j++){
             int n = findOccurance(avalue[j], cvalue[i]) ;
 
+            /*fptr = fopen("likelyhood.txt", "a");
+            fprintf(fptr, "%s|%s = %d\n",avalue[j].c_str(),cvalue[i].c_str(),n);
+            fclose(fptr);*/
             cout << avalue[j] << "|" << cvalue[i] << " = "<< n << endl ;
 
         }
