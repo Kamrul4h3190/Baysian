@@ -90,22 +90,8 @@ int main() {
                     totalcat++;
                 }
          }
-         /*if(!flag){
-            cvalue.push_back(s) ;
-            if(s.compare("dog")){
-                totaldog++;
-            }
-            else if(s.compare("cat")){
-                totalcat++;
-            }
-         }*/
-
-
-
 
     }
-    printf("totaldog = %d\n", totaldog) ;
-    printf("totalcat = %d\n", totalcat) ;
     printf("total sample = %d\n", numberofobject) ;
     for(int i = 0 ; i < avalue.size() ; i++){
 
@@ -114,7 +100,19 @@ int main() {
 
     for(int i = 0 ; i < cvalue.size() ; i++){
 
-        cout<< cvalue[i] << endl ;
+        if(cvalue[i].compare("dog")){
+            fptr = fopen("prior.txt", "a");
+            fprintf(fptr, "%s = %.2f\n",cvalue[i].c_str(),totaldog/(1.00*numberofobject) );
+            fclose(fptr);
+            cout<< cvalue[i] <<" = "<<totaldog<<"|"<<numberofobject<<endl ;
+        }
+        else if(cvalue[i].compare("cat")){
+            fptr = fopen("prior.txt", "a");
+            fprintf(fptr, "%s = %.2f\n",cvalue[i].c_str(),totalcat/(1.00*numberofobject) );
+            fclose(fptr);
+            cout<< cvalue[i] <<" = "<<totalcat<<"|"<<numberofobject<<endl ;
+        }
+
     }
 
     for(int i = 0 ; i < cvalue.size() ; i++){
