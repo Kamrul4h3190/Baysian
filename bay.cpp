@@ -37,7 +37,8 @@ int findOccurance(string att, string cl)
 
     return count ;
 }
-int main() {
+
+void trainModel(){
     char a[100], c[100];
     FILE *fptr;
     if ((fptr = fopen("data.txt", "r")) == NULL) {
@@ -98,12 +99,14 @@ int main() {
         cout<< avalue[i] << endl ;
     }
 
+    //find and write priors to prior.txt
     for(int i = 0 ; i < cvalue.size() ; i++){
 
         if(cvalue[i].compare("dog")){
             fptr = fopen("prior.txt", "a");
             fprintf(fptr, "%s = %.2f\n",cvalue[i].c_str(),totaldog/(1.00*numberofobject) );
             fclose(fptr);
+
             cout<< cvalue[i] <<" = "<<totaldog<<"|"<<numberofobject<<endl ;
         }
         else if(cvalue[i].compare("cat")){
@@ -119,15 +122,19 @@ int main() {
         for(int j = 0 ; j < avalue.size() ; j++){
             int n = findOccurance(avalue[j], cvalue[i]) ;
 
-            /*fptr = fopen("likelyhood.txt", "a");
+            fptr = fopen("likelyhood.txt", "a");
             fprintf(fptr, "%s|%s = %d\n",avalue[j].c_str(),cvalue[i].c_str(),n);
-            fclose(fptr);*/
+            fclose(fptr);
             cout << avalue[j] << "|" << cvalue[i] << " = "<< n << endl ;
 
         }
     }
 
     fclose(fptr);
+}
+int main() {
+
+    trainModel();
 
     return 0;
 }
